@@ -1,0 +1,207 @@
+.layout-manager {
+  height: 100%;
+  display: flex;
+  .sidebar {
+    flex-basis: 15%;
+  }
+  .layout-content {
+    flex-basis: 75%;
+  }
+  .properties-sidepanel {
+    flex-basis: 15%;
+    padding-left: 10px;
+  }
+
+  .shadow {
+    .title {
+      display: flex;
+      & > span {
+        padding-left: 5px;
+      }
+      .utility-toolbar {
+        margin-left: 10px;
+        visibility: hidden;
+        position: relative;
+        top: -2px;
+        button {
+          transition: 100ms ease;
+          &.toggled {
+            transform: rotate(-90deg);
+          }
+        }
+        .size-group {
+          border: 1px solid #ababab;
+        }
+      }
+    }
+    &:hover, &:focus {
+      .utility-toolbar {
+        visibility: visible;
+      }
+    }
+  }
+
+  .divider, .space {
+    background-color: transparent !important;
+    .divider-line {
+      border: 1px dashed #ababab;
+      position: relative;
+      height: 1px;
+      width: 100%;
+      &.space {
+        height: 24px;
+        text-align: center;
+        border: 0;
+      }
+    }
+  }
+
+}
+
+.root-container {
+  .ngx-dnd-container {
+    background-color: transparent !important;
+    padding: 0;
+    margin: 0;
+    ngx-dnd-item {
+      border: 0;
+      padding: 5px 10px;
+      border-radius: 3px;
+      background-color: #eaeaea;
+      &:hover {
+        border: 0;
+      }
+    }
+  }
+}
+
+.drop-container {
+  .ngx-dnd-container {
+    height: 95%;
+    margin-top: 0;
+  }
+}
+
+ngx-dnd-container {
+  &.hidden {
+    display: none;
+  }
+  .ngx-dnd-container {
+    background-color: rgba(255, 255, 255, 0.15);
+    border: 0;
+    margin: 8px;
+    padding: 5px;
+
+    &.gu-empty {
+      border: 1px solid #ddd;
+      background-color: #f9f9f9;
+      height: 100%;
+      &::before {
+        // content: 'Drag and drop from the left panel';
+        display: block;
+        text-align: center;
+        transform: translate(50%, 50%);
+        position: fixed;
+        left: 50%;
+        top: 50%;
+      }
+    }
+
+    &:nth-child(odd) {
+      background-color: #f9f9f9;
+    }
+
+    .ex-moved {
+      background-color: #e74c3c;
+    }
+
+    .ex-over {
+      background-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .handle {
+      padding: 0 5px;
+      margin-right: 5px;
+      background-color: rgba(0, 0, 0, 0.4);
+      cursor: move;
+    }
+  }
+
+  .no-select {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none;   /* Chrome/Safari/Opera */
+    -khtml-user-select: none;    /* Konqueror */
+    -moz-user-select: none;      /* Firefox */
+    -ms-user-select: none;       /* IE/Edge */
+    user-select: none;           /* non-prefixed version, currently
+                                    not supported by any browser */
+  }
+
+  .clearfix::after {
+    content: " ";
+    display: block;
+    height: 0;
+    clear: both;
+  }
+
+  .ngx-dnd-box,
+  .ngx-dnd-item {
+    margin: 5px;
+    padding: 5px 10px;
+    background-color: rgba(0, 0, 0, 0.15);
+    transition: opacity 0.4s ease-in-out;
+    border: 1px solid lightblue;
+    display: block;
+
+    &:not(.has-handle):not(.move-disabled),
+    &.has-handle [ngxdraghandle],
+    &.has-handle [ngxDragHandle] {
+      cursor: move;
+      cursor: grab;
+      cursor: -moz-grab;
+      cursor: -webkit-grab;
+    }
+
+    .ngx-dnd-content {
+      user-select: none;
+    }
+
+    &:hover {
+      border: 1px solid blue;
+    }
+  }
+
+  .ngx-dnd-box {
+    height: 40px;
+    width: 40px;
+    line-height: 20px;
+    text-align: center;
+    float: left;
+  }
+
+  .gu-mirror {
+    background-color: #eaeaea;
+    position: fixed !important;
+    margin: 0 !important;
+    z-index: 9999 !important;
+    padding: 5px 10px !important;
+    opacity: 0.8;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+    filter: alpha(opacity=80);
+
+  }
+  .gu-hide {
+    display: none !important;
+  }
+  .gu-unselectable {
+    -webkit-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    user-select: none !important;
+  }
+  .gu-transit {
+    opacity: 0.15;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";
+    filter: alpha(opacity=20);
+  }
+}

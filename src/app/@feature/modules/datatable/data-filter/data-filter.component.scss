@@ -1,0 +1,14 @@
+.column-filter {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-between;
+  .column-body {
+    max-height: calc(100vh - 150px);
+    overflow: auto;
+  }
+  .column-footer {
+    display: flex;
+    justify-content: flex-end;
+  }
+}

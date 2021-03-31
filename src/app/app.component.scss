@@ -1,0 +1,29 @@
+.header-wrapper {
+  display: flex;
+  align-items: center;
+  height: 64px;
+  justify-content: space-between;
+  .logo {
+    width: 150px;
+    height: 30px;
+    background-color: #000b15;
+  }
+  .right-wrapper {
+    display: flex;
+    .top-nav {
+      margin-right: 10px;
+    }
+  }
+}
+
+.inner-content {
+  min-height: calc(100vh - (64px + 70px));
+  padding: 24px 24px 0;
+  .content {
+    margin-top: 10px;
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 4px;
+    min-height: calc(100vh - 190px);
+  }
+}

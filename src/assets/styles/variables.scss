@@ -1,0 +1,41 @@
+@use 'sass:map';
+
+$utility: (
+  "highlight": #f3f3f3
+);
+
+$utility-dark: (
+  "highlight": #f3f3f3
+);
+
+@mixin scrolling-shadows(
+    $background-color: rgb(255, 255, 255),
+    $shadow-intensity: 0.2,
+    $shadow-color: rgb(0,0,0),
+    $cover-size: 40px,
+    $shadow-size: 14px
+  ) {
+
+    background:
+      // Shadow covers 
+      linear-gradient($background-color 30%, rgba($background-color,0)),
+      linear-gradient(rgba($background-color,0), $background-color 70%) 0 100%,
+
+      // Shadows 
+      radial-gradient(farthest-side, 50% 0, rgba($shadow-color,$shadow-intensity), rgba($shadow-color,0)),
+      radial-gradient(farthest-side, 50% 100%, rgba($shadow-color,$shadow-intensity), rgba($shadow-color,0)) 0 100%;
+    background:
+      // Shadow covers 
+      linear-gradient($background-color 30%, rgba($background-color,0)),
+      linear-gradient(rgba($background-color,0), $background-color 70%) 0 100%,
+
+      // Shadows 
+      radial-gradient(farthest-side at 50% 0, rgba($shadow-color,$shadow-intensity), rgba($shadow-color,0)),
+      radial-gradient(farthest-side at 50% 100%, rgba($shadow-color,$shadow-intensity), rgba($shadow-color,0)) 0 100%;
+    background-repeat: no-repeat;
+    background-color: $background-color;
+    background-size: 100% $cover-size, 100% $cover-size, 100% $shadow-size, 100% $shadow-size;
+
+    // Opera doesn't support this in the shorthand 
+    background-attachment: local, local, scroll, scroll;
+}

@@ -1,0 +1,151 @@
+<div class="toolbar text-right" *ngIf="entity">
+  <nz-button-group>
+    <button nz-button nzType="primary" nz-dropdown [nzDropdownMenu]="saveMenu">Save <i nz-icon nzType="down" nzTheme="outline"></i></button>
+    <button nz-button (click)="goBackToLayout()"><i nz-icon nzType="close-circle" nzTheme="outline"></i> Cancel</button>
+
+    <nz-dropdown-menu #saveMenu="nzDropdownMenu">
+      <ul nz-menu>
+        <li nz-menu-item>
+          <a (click)="buildLayoutForService()"><i nz-icon nzType="save" nzTheme="outline"></i> Save</a>
+        </li>
+        <li nz-menu-item>
+          <a (click)="buildLayoutForService(true)"><i nz-icon nzType="check" nzTheme="outline"></i> Save & mark as default</a>
+        </li>
+      </ul>
+    </nz-dropdown-menu>
+  </nz-button-group>
+</div>
+
+<div class="layout-manager" *ngIf="entity && layout; else empty">
+
+  <div class="sidebar">
+    <nz-tabset>
+      <nz-tab nzTitle="Fields">
+
+        <ngx-dnd-container
+          class="root-container"
+          [model]="fields"
+          [dropZones]="['builder-target']"
+          [copy]="true"
+          (drag)="builderDrag($event)"
+          direction="mixed">
+            <ng-template let-item="model">
+              {{item.label}} - {{fieldTypes[item.type]}}
+            </ng-template>
+        </ngx-dnd-container>
+
+      </nz-tab>
+      <nz-tab nzTitle="Blocks">
+
+        <ngx-dnd-container
+          class="root-container"
+          [model]="basicItems"
+          [dropZones]="['builder-target']"
+          [copy]="true"
+          direction="mixed">
+            <ng-template let-item="model">
+              {{item.label}}
+            </ng-template>
+        </ngx-dnd-container>
+
+
+      </nz-tab>
+    </nz-tabset>
+  </div>
+  <div class="layout-content">
+
+    <ngx-dnd-container
+      class="drop-container"
+      [model]="targetBuilderTools"
+      dropZone="builder-target"
+      [removeOnSpill]="true"
+      [droppableItemClass]="droppableItemClass"
+      (drop)="builderDrop($event)"
+      direction="mixed">
+
+      <ng-template let-model="model" let-template="template" let-index="index">
+        <ng-container [ngSwitch]="true">
+
+          <!-- Row & Column -->
+          <ng-container *ngSwitchCase="model.type === 'row' || model.type === 'column' || model.type === 'section'">
+            <div class="shadow">
+              <div class="title">
+                {{ model.label }}
+                <span *ngIf="model.type === 'section'">
+                  <ng-container *ngIf="model.meta.title">-</ng-container> {{model.meta.title}}
+                </span>
+                <app-utility-bar [model]="model" (delete)="deleteModelHandler($event)" (selectedModel)="selectedModelHandler($event)"></app-utility-bar>
+              </div>
+              <ngx-dnd-container
+                dropZone="builder-target"
+                [model]="model.children"
+                [removeOnSpill]="true"
+                [template]="template"
+                (drop)="builderDrop($event)"
+                [droppableItemClass]="droppableItemClass"
+                direction="mixed">
+              </ngx-dnd-container>
+            </div>
+          </ng-container>
+
+          <!-- Heading -->
+          <ng-container *ngSwitchCase="model.type === 'heading1' || model.type === 'heading2' || model.type === 'heading3'">
+            <div class="shadow">
+              <div class="title">
+                {{model.label}}
+                <app-utility-bar [model]="model" (delete)="deleteModelHandler($event)" (selectedModel)="selectedModelHandler($event)"></app-utility-bar>
+              </div>
+              <nz-input-group nzCompact>
+                <input nz-input [attr.placeholder]="'headerTitle' | translate" aria-label="Heading Title" [(ngModel)]="model.meta.title" [style.width.%]="'50'"/>
+                <input nz-input [attr.placeholder]="'subHeaderTitle' | translate" aria-label="Sub Heading" [(ngModel)]="model.meta.desc" [style.width.%]="'50'"/>
+              </nz-input-group>
+            </div>
+          </ng-container>
+
+          <!-- Desc -->
+          <ng-container *ngSwitchCase="model.type === 'desc'">
+            <div class="shadow">
+              <div class="title">
+                {{model.label}}
+                <app-utility-bar [model]="model" (delete)="deleteModelHandler($event)" (selectedModel)="selectedModelHandler($event)"></app-utility-bar>
+              </div>
+              <textarea
+                nz-input
+                [attr.placeholder]="'descTitle' | translate"
+                [nzAutosize]="{ minRows: 2, maxRows: 3 }"
+                [(ngModel)]="model.meta.desc"></textarea>
+            </div>
+          </ng-container>
+
+          <!-- Space & Divider -->
+          <ng-container *ngSwitchCase="model.type === 'divider' || model.type === 'space'">
+            <div class="divider-line" [ngClass]="{'space': model.type === 'space'}">
+              <div class="icon" *ngIf="model.type === 'space'">
+                <i nz-icon nzType="column-height" nzTheme="outline"></i>
+              </div>
+            </div>
+          </ng-container>
+
+          <ng-container *ngSwitchDefault>
+            <div class="shadow">
+              <div class="title">
+                {{model.label}}
+                <app-utility-bar [model]="model" (delete)="deleteModelHandler($event)" (selectedModel)="selectedModelHandler($event)"></app-utility-bar>
+              </div>
+            </div>
+          </ng-container>
+        </ng-container>
+      </ng-template>
+
+
+    </ngx-dnd-container>
+
+  </div>
+  <div class="properties-sidepanel">
+    <app-properties-panel [model]="selectedModel" [ngStyle]="{'padding-left.px': !selectedModel ? 0 : 8}"></app-properties-panel>
+  </div>
+</div>
+
+<ng-template #empty>
+  <nz-empty class="fit-height" [nzNotFoundContent]="'fieldManagerEmptyDesc' | translate"></nz-empty>
+</ng-template>

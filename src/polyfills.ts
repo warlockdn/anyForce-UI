@@ -57,6 +57,8 @@
  */
 import 'zone.js/dist/zone';  // Included with Angular CLI.
 
+import '@ungap/global-this';
+(window as any).global = globalThis as any;
 
 /***************************************************************************************************
  * APPLICATION IMPORTS

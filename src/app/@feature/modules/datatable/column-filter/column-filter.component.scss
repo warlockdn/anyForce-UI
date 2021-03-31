@@ -1,0 +1,29 @@
+nz-card {
+  box-shadow: 0 2px 4px -1px rgb(0 0 0 / 20%),
+              0 4px 5px 0 rgb(0 0 0 / 14%),
+              0 1px 10px 0 rgb(0 0 0 / 12%);
+  margin-top: 10px;
+  ::ng-deep.ant-card-head {
+    min-height: 45px;
+    padding: 0 20px;
+    .ant-card-head-title {
+      padding: 10px 0;
+    }
+  }
+  ::ng-deep.ant-card-body {
+    padding: 20px;
+    max-height: 180px;
+    overflow: auto;
+  }
+}
+
+.column-list {
+  label {
+    display: block;
+    margin-left: 0;
+    margin-bottom: 10px;
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}

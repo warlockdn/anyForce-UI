@@ -1,0 +1,35 @@
+{
+  "notfound": "Sorry, the page you visited does not exist.",
+  "goback": "Go Back",
+  "usertopbutton": "Toggle Profile Menu",
+  "dashboardTitle": "Dashboard",
+  "entitiesTitle": "Entities",
+  "processTitle": "Process Automation",
+  "usersTitle": "Users",
+  "settingsTitle": "Settings",
+  "entitiesPageTitle": "Entities Manager",
+  "fieldSetsTitle": "Field Sets",
+  "datatableFilterText": "Filter Table Data",
+  "datatableColumnFilterText": "Toggle Available Columns",
+  "toggleColumnHeaderText": "Toggle Column",
+  "usersPageTitle": "User Manager",
+  "rolesTitle": "Roles",
+  "permissionsTitle": "Permissions",
+  "layoutTitle": "Layouts",
+  "fieldManagerEmptyDesc": "No Entity selected. Please select from left panel.",
+  "emptyEntityList": "No description available for this entity",
+  "shrink": "Shrink",
+  "expand": "Expand",
+  "edit": "Edit",
+  "delete": "Delete",
+  "toggleRow": "Toggle Row contents",
+
+  "headerTitle": "Enter Title",
+  "subHeaderTitle": "Enter Sub Heading (Optional)",
+  "descTitle": "Enter Description",
+
+  "addNewLayout": "Add new Layout",
+  "backToEntities": "Back to Entities",
+
+  "propertyLayoutEmpty": "Please select a block from the left to enable property editing"
+}
