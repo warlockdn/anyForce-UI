@@ -25,7 +25,7 @@ export enum FieldTypeDesc {
   currency = 'Currency',
   picklist = 'Picklist',
   textarea = 'Textarea',
-  specialtext = 'Specialtext',
+  specialtext = 'Special Text',
   file = 'File',
   switch = 'Switch',
   phone = 'Phone',

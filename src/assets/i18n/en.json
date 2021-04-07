@@ -7,16 +7,30 @@
   "processTitle": "Process Automation",
   "usersTitle": "Users",
   "settingsTitle": "Settings",
+
   "entitiesPageTitle": "Entities Manager",
+  "loadingEntities": "Please wait while Entities are loading..",
+  "noEntitiesTemplate": "No rows found.",
+  "addEntityAction": "Add new Entity",
+  "entitiesActionEdit": "Edit Entity",
+  "entitiesActionFields": "Go to Fields List",
+  "entitiesActionLayouts": "Go to Layouts List",
+
   "fieldSetsTitle": "Field Sets",
+  "fieldManagerEmptyDesc": "No Entity selected. Please select from left panel.",
+  "fieldEmptyDesc": "No Field selected. Please select from left panel",
+  "fieldFileExtensionsHelpText": "Add extensions accepted per line (no special characters))",
+  "fieldPickListOptionsHelpText": "Add options by line (without comma's)",
+  "fieldResetText": "Reset field to initial state",
+
   "datatableFilterText": "Filter Table Data",
   "datatableColumnFilterText": "Toggle Available Columns",
   "toggleColumnHeaderText": "Toggle Column",
+  "addNewEntity": "Add new entity",
   "usersPageTitle": "User Manager",
   "rolesTitle": "Roles",
   "permissionsTitle": "Permissions",
   "layoutTitle": "Layouts",
-  "fieldManagerEmptyDesc": "No Entity selected. Please select from left panel.",
   "emptyEntityList": "No description available for this entity",
   "shrink": "Shrink",
   "expand": "Expand",
@@ -31,5 +45,8 @@
   "addNewLayout": "Add new Layout",
   "backToEntities": "Back to Entities",
 
-  "propertyLayoutEmpty": "Please select a block from the left to enable property editing"
+  "propertyLayoutEmpty": "Please select a block from the left to enable property editing",
+
+  "userRolesManagerTitle": "User Roles Manager",
+  "addNewUserRole": "Add Role"
 }

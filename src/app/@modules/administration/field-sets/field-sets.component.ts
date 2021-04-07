@@ -1,17 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { Entity } from 'src/app/models/entity';
+import { EntityService } from '../services/entity/entity.service';
 
 @Component({
   selector: 'app-field-sets',
   template: `
     <div class="field-manager">
       <div nz-row [nzGutter]="[hGutter, vGutter]">
-        <div nz-col [nzSpan]="5">
+        <div nz-col [nzSpan]="4">
 
           <!-- Search -->
           <nz-input-group [nzSuffix]="suffixIconSearch">
-            <input type="text" nz-input placeholder="input search text" />
+            <input type="text" nz-input placeholder="input search text" [(ngModel)]="searchText" />
           </nz-input-group>
           <ng-template #suffixIconSearch>
             <i nz-icon nzType="search"></i>
@@ -20,21 +22,23 @@ import { Subscription } from 'rxjs';
           <!-- Entity List -->
           <nz-list [nzBordered]="false" class="entity-list">
             <nz-list-item
-              *ngFor="let entity of [1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8]"
+              *ngFor="let entity of entities | searchlist: searchText:'name'"
               (click)="loadEntity(entity)"
-              routerLinkActive="active">
+              [ngClass]="isActiveEntity(entity)">
                 <div class="content">
                   <nz-list-item-meta-title>
-                    Entity 0{{ entity }}
+                    {{ entity.label }}
                   </nz-list-item-meta-title>
-                  <nz-list-item-meta nzDescription="Ant Design, a design language for background applications">
+                  <nz-list-item-meta *ngIf="entity.description" [nzDescription]="entity.description">
+                  </nz-list-item-meta>
+                  <nz-list-item-meta class="empty" *ngIf="!entity.description" [nzDescription]="'emptyEntityList' | translate">
                   </nz-list-item-meta>
                 </div>
             </nz-list-item>
           </nz-list>
         </div>
-        <div nz-col [nzSpan]="19">
-          <app-field-manager [entity]="entity"></app-field-manager>
+        <div nz-col [nzSpan]="20">
+          <router-outlet></router-outlet>
         </div>
       </div>
     </div>
@@ -48,24 +52,55 @@ export class FieldSetsComponent implements OnInit {
   readonly hGutter = 16;
   readonly vGutter = 16;
 
-  entity: any;
+  /** List of Entities */
+  entities: Entity[] = [];
+
+  /** Selected Entity */
+  selectedEntity!: Entity;
+
+  /** Search text for filtering entities */
+  searchText = '';
 
   constructor(
     private readonly router: Router,
-    private readonly route: ActivatedRoute
+    private readonly route: ActivatedRoute,
+    private readonly entityService: EntityService
   ) { }
 
   ngOnInit(): void {
     this.internalSubs.add(
-      this.route.paramMap.subscribe(params => {
-        this.entity = params.get('entityCode');
-        console.log(this.entity);
+      this.entityService.loadEntities()
+        .subscribe(entities => {
+          this.entities = entities;
+          this.watchRouteChanges();
+        })
+    );
+  }
+
+  watchRouteChanges(): void {
+    this.internalSubs.add(
+      this.route?.firstChild?.params.subscribe(params => {
+        const entityName = params.entityCode;
+        if (entityName) {
+          const entityToBeLoaded = this.entities.find(entity => entity.name === entityName) as Entity;
+          if (entityToBeLoaded) {
+            this.selectedEntity = entityToBeLoaded;
+          }
+        }
       })
     );
   }
 
-  loadEntity(route: any): void {
-    this.router.navigate(['/administration/entities/fields', route]);
+  isActiveEntity(entity: Entity): string {
+    return this.selectedEntity?.name === entity.name ? 'selected' : '';
+  }
+
+  loadEntity(entity: Entity): void {
+    this.router.navigate(['/administration/entities/fields', entity.name], {
+      state: {
+        entity
+      }
+    });
   }
 
 }

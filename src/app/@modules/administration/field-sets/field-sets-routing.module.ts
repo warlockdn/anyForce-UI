@@ -6,9 +6,12 @@ import { FieldSetsComponent } from './field-sets.component';
 const routes: Routes = [
   {
     path: '',
+    component: FieldSetsComponent,
     children: [
-      { path: '', component: FieldSetsComponent },
-      { path: ':entityCode', component: FieldSetsComponent }
+      {
+        path: ':entityCode',
+        component: FieldManagerComponent
+      }
     ]
   }
 ];

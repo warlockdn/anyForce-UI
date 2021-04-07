@@ -29,6 +29,7 @@ import { EllipsisModule } from 'ngx-ellipsis';
 import { AddNewLayoutComponent } from './add-new-layout/add-new-layout.component';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { UtilityModule } from 'src/app/@utility/utility.module';
 
 @NgModule({
   declarations: [
@@ -61,7 +62,8 @@ import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
     NzDropDownModule,
     NzIconModule.forChild([
       SearchOutline
-    ])
+    ]),
+    UtilityModule
   ]
 })
 export class EntitiesLayoutModule { }

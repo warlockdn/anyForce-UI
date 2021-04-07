@@ -12,17 +12,16 @@
   max-height: calc(100vh - 315px);
   min-height: calc(100vh - 315px);
   overflow: auto;
-  cursor: pointer;
   border-right: 1px solid map-get($map: $utility, $key: 'highlight');
   &:hover {
-    // @include scroll-shadow;
     @include scrolling-shadows;
     overflow: auto;
   }
   nz-list-item {
     padding: 12px;
     padding-right: 28px;
-    &:hover {
+    cursor: pointer;
+    &:hover, &.selected {
       background-color: map-get($map: $utility, $key: 'highlight');
     }
     .content {

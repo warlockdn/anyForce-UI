@@ -27,6 +27,7 @@ import { TranslateModuleLoader } from './translate.module';
 import { environment } from './../environments/environment';
 import { HttpInterceptorService } from './@core/http/http-interceptor.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzConfig, NzConfigService, NZ_CONFIG } from 'ng-zorro-antd/core/config';
 
 if (environment.production) {
   Sentry.init({
@@ -88,7 +89,17 @@ registerLocaleData(en);
       useClass: HttpInterceptorService,
       multi: true
     },
-    NzMessageService
+    {
+      provide: NZ_CONFIG,
+      useValue: {
+        notification: {
+          nzDuration: 6000,
+          nzAnimate: true,
+          nzPlacement: 'bottomRight'
+        }
+      } as NzConfig
+    },
+    NzMessageService,
   ],
   bootstrap: [AppComponent]
 })

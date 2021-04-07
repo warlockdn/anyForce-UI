@@ -2,52 +2,22 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { EMPTY, Observable, of, throwError } from 'rxjs';
-import { catchError, map, share } from 'rxjs/operators';
-import { DataStoreService } from './../../../../@shared/services/data-store.service';
-import { Entity } from './../../../../models/entity';
+import { catchError, map } from 'rxjs/operators';
+import { Field } from 'src/app/models/field.model';
 
-@Injectable()
-export class EntityService {
+@Injectable({
+  providedIn: 'root'
+})
+export class FieldService {
 
   constructor(
     private readonly http: HttpClient,
-    private readonly notification: NzNotificationService,
-    private readonly dataStore: DataStoreService
+    private readonly notification: NzNotificationService
   ) { }
 
-  /**
-   * Loads Entities List from Subject if not found loads from API
-   */
-  loadEntities(): Observable<Entity[]> {
-    return new Observable((observer) => {
-      const entities = this.dataStore.entities$.getValue();
-      if (!entities) {
-        this.getEntites()
-          .subscribe(response => {
-            this.dataStore.entities$.next(response);
-            observer.next(response);
-          });
-      } else {
-        observer.next(entities);
-      }
-    });
-  }
-
-  private getEntites(): Observable<Entity[]> {
+  createField(entityName: string, fieldFormValue: any): Observable<Field[]> {
     return this.http
-      .get('/api/entities')
-      .pipe(
-        catchError(error => {
-          this.handleError(error);
-          return of([]);
-        }),
-        map(res => (res as any).data)
-      );
-  }
-
-  createEntity(entity: Entity): Observable<Entity> {
-    return this.http
-      .post(`/api/entities`, entity)
+      .post<Field>(`/api/entities/${entityName}/fields`, fieldFormValue)
       .pipe(
         catchError(error => {
           this.handleError(error);
@@ -57,9 +27,10 @@ export class EntityService {
       );
   }
 
-  updateEntity(name: string, entity: Entity): Observable<Entity> {
+  updateField(entityName: string, fieldName: string, fieldFormValue: any): Observable<Field> {
+    delete fieldFormValue.name;
     return this.http
-      .patch(`/api/entities/${name}`, entity)
+      .patch<Field>(`/api/entities/${entityName}/fields/${fieldName}`, fieldFormValue)
       .pipe(
         catchError(error => {
           this.handleError(error);
@@ -69,9 +40,9 @@ export class EntityService {
       );
   }
 
-  deleteEntity(entity: Entity): Observable<any> {
+  deleteField(entityName: string, fieldName: string): Observable<any> {
     return this.http
-      .delete(`/api/entities/${entity.name}`)
+      .delete<Field>(`/api/entities/${entityName}/fields/${fieldName}`)
       .pipe(
         catchError(error => {
           this.handleError(error);

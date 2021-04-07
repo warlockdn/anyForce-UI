@@ -25,7 +25,7 @@ import { Logger } from 'src/app/@core/logger.service';
                 <i nz-icon nzType="left" nzTheme="outline"></i>
             </button>
             <nz-input-group [nzSuffix]="suffixIconSearch">
-              <input type="text" nz-input placeholder="input search text" />
+              <input type="text" nz-input placeholder="input search text" [(ngModel)]="searchText" />
             </nz-input-group>
             <ng-template #suffixIconSearch>
               <i nz-icon nzType="search"></i>
@@ -36,7 +36,7 @@ import { Logger } from 'src/app/@core/logger.service';
           <ng-container *ngIf="!selectedEntity">
             <nz-list [nzBordered]="false" class="entity-list" *ngIf="entities.length > 0; else skeletonLoading">
               <nz-list-item
-                *ngFor="let entity of entities"
+                *ngFor="let entity of entities | searchlist: searchText:'name'"
                 (click)="loadLayouts(entity)"
                 routerLinkActive="active">
                   <div class="content">
@@ -62,7 +62,7 @@ import { Logger } from 'src/app/@core/logger.service';
           <div *ngIf="selectedEntity && layouts.length > 0">
             <nz-list [nzBordered]="false" class="entity-list">
               <nz-list-item
-                  *ngFor="let layout of layouts"
+                  *ngFor="let layout of layouts | searchlist: searchText:'name'"
                   (click)="loadLayout(layout)">
                     <nz-list-item-meta-title>
                       {{ layout.label }} <i nz-icon nzType="check-circle" nzTheme="outline" *ngIf="layout.default"></i>
@@ -122,6 +122,9 @@ export class EntitiesLayoutComponent implements OnInit, OnDestroy {
   /** Selected Layout for a Entity */
   selectedLayout!: Layout;
 
+  /** Search text for searching entities and layouts list. */
+  searchText = '';
+
   constructor(
     private readonly route: ActivatedRoute,
     private readonly router: Router,
@@ -167,10 +170,12 @@ export class EntitiesLayoutComponent implements OnInit, OnDestroy {
     (this.selectedLayout as any) = null;
     this.layouts = [];
     this.router.navigate(['/administration/entities/layout']);
+    this.searchText = '';
   }
 
   loadLayouts(entity: Entity): void {
     this.selectedEntity = entity;
+    this.searchText = '';
     this.layoutService.getLayouts(entity.name)
       .subscribe(layouts => {
         this.layouts = layouts;
@@ -179,6 +184,7 @@ export class EntitiesLayoutComponent implements OnInit, OnDestroy {
 
   loadLayout(layout: Layout): void {
     this.selectedLayout = layout;
+    this.searchText = '';
     this.router.navigate(['/administration/entities/layout', this.selectedEntity?.name, layout?._id], {
       state: {
         entity: this.selectedEntity,

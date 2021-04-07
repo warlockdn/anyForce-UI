@@ -5,7 +5,7 @@ import { AgGridColumn } from 'ag-grid-angular';
 import { NzButtonComponent } from 'ng-zorro-antd/button';
 import { NzDrawerService } from 'ng-zorro-antd/drawer';
 import { Subscription } from 'rxjs';
-import { ColumnFilter } from 'src/app/models/datatable';
+import { ColumnFilter } from './../../../models/datatable';
 import { ColumnFilterComponent } from './column-filter/column-filter.component';
 import { DataFilterComponent } from './data-filter/data-filter.component';
 
